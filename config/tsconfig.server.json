@@ -1,0 +1,18 @@
+{
+    "extends" : "./tsconfig.json",
+
+    "compilerOptions": {
+        "target"        : "ESNext",
+        "jsx"           : "react",                            /* Specify JSX code generation: 'preserve', 'react-native', or 'react'. */
+        "jsxFactory"    : "React.createElement",              // jsx 팩토리 함수 설정,    
+        
+        "outDir": "../dist/server"
+    },
+
+    "include": [
+        "../src/server/**/*"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}
