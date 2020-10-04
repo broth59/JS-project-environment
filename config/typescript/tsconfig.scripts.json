@@ -3,14 +3,16 @@
 
     "compilerOptions": {
         "target"        : "ESNext",
+        
         "jsx"           : "react",                            /* Specify JSX code generation: 'preserve', 'react-native', or 'react'. */
         "jsxFactory"    : "React.createElement",              // jsx 팩토리 함수 설정,    
-        
-        "outDir": "../dist/server"
+        "resolveJsonModule"             : true,
+
+        "outDir": "../../dist",
     },
 
     "include": [
-        "../src/server/**/*"
+		"../../scripts/**/*"
     ],
     "exclude": [
         "node_modules"
