@@ -1,5 +1,5 @@
 {
-    "extends" : "./tsconfig.json",
+    "extends" : "../../tsconfig.json",
 
     "compilerOptions": {
 		"target"  : "ES2016",                               /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017', 'ES2018', 'ES2019', 'ES2020', or 'ESNEXT'. */
@@ -8,16 +8,15 @@
         "lib": [
             "ES2015", "ES2016", "ES2017", "ES2018", "ES2019", "ES2020", "DOM"
           ],                                                /* Specify library files to be included in the compilation. */
-        // "jsx"       : "preserve",                            /* Specify JSX code generation: 'preserve', 'react-native', or 'react'. */
-        // "jsxFactory": "React.createElement",              // jsx 팩토리 함수 설정,      
+        "jsx"       : "preserve",                            /* Specify JSX code generation: 'preserve', 'react-native', or 'react'. */
+        "jsxFactory": "React.createElement",              // jsx 팩토리 함수 설정,      
 		   
 
         "outDir": "../../dist/client"
     },
 
     "include": [
-        "../../src/client/**/*",
-		"../../test/client/**/*",
+        "./**/*",
     ],
     "exclude": [
         "node_modules"

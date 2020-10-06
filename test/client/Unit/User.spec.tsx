@@ -1,6 +1,6 @@
 import React 	  from 'react'
 import { render } from '@testing-library/react' 
-import UserPage from '@page/UserPage'
+import UserPage   from '@page/UserPage'
 
 describe('<UserPage/>', ()=>{
 	it('', ()=>{

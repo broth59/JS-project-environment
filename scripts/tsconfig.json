@@ -1,5 +1,5 @@
 {
-    "extends" : "./tsconfig.json",
+    "extends" : "../tsconfig.json",
 
     "compilerOptions": {
         "target"        : "ESNext",
@@ -8,11 +8,11 @@
         "jsxFactory"    : "React.createElement",              // jsx 팩토리 함수 설정,    
         "resolveJsonModule"             : true,
 
-        "outDir": "../../dist",
+        "outDir": "../dist",
     },
 
     "include": [
-		"../../scripts/**/*"
+		"./**/*"
     ],
     "exclude": [
         "node_modules"

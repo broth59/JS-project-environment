@@ -17,7 +17,7 @@
     "@types/eslint": "^7.2.2",
     "@types/hoist-non-react-statics": "^3.3.1",
     "@types/html-webpack-plugin": "^3.2.3",
-    "@types/react": "^16.9.49",
+    "@types/react": "^16.9.50",
     "@types/react-dom": "^16.9.8",
     "@types/webpack-manifest-plugin": "^2.1.0",
     "autoprefixer": "^10.0.1",
@@ -68,6 +68,7 @@
     "@typescript-eslint/parser": "^4.1.0",
     "awesome-typescript-loader": "^5.2.1",
     "eslint": "^7.8.1",
+    "eslint-import-resolver-typescript": "^2.3.0",
     "eslint-plugin-jest": "^24.0.2",
     "eslint-plugin-react": "^7.20.6",
     "jest": "^26.4.2",
@@ -78,13 +79,16 @@
     "webpack": "^4.44.2",
     "webpack-dev-server": "^3.11.0"
   },
+  "resolutions": {
+	"@types/react": "^16.9.50"
+  },
   "scripts": {
-    "build:all": "tsc --build ./config/typescript/tsconfig.json",
-    "build:server": "tsc --build ./config/typescript/tsconfig.server.json",
+    "build:all": "tsc --build ./tsconfig.json",
+    "build:server": "tsc --build ./src/server/tsconfig.json",
     "test:server": "jest --config=config/jest/jest.config.server.js --watch",
     "test-update:server": "jest --config=config/jest/jest.config.server.js",
-    "build:client": "export NODE_ENV=PRODUCTION  && export TS_NODE_PROJECT=./config/typescript/tsconfig.scripts.json && ts-node -r tsconfig-paths/register ./scripts/build.ts ",
-    "watch:client": "export NODE_ENV=DEVELOPMENT && export TS_NODE_PROJECT=./config/typescript/tsconfig.scripts.json && ts-node -r tsconfig-paths/register ./scripts/watch.ts",
+    "build:client": "export NODE_ENV=PRODUCTION  && export TS_NODE_PROJECT=./src/client/tsconfig.json && ts-node -r tsconfig-paths/register ./scripts/build.ts ",
+    "watch:client": "export NODE_ENV=DEVELOPMENT && export TS_NODE_PROJECT=./src/client/tsconfig.json && ts-node -r tsconfig-paths/register ./scripts/watch.ts",
     "test:client": "jest --config=config/jest/jest.config.client.js --watch",
     "test-update:client": "jest --config=config/jest/jest.config.client.js",
     "clear": "rm -rf dist && rm -rf coverage"

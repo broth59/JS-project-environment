@@ -1,16 +1,23 @@
 
+const path = require('path')
+
 
 module.exports = {
+	/* preset */
+
 	/*Source spec*/
 	//source path
-	files		   : [ './src/*' ],
-	ignorePatterns : [ '/node_modules/' ],
+	//files		   : [ './**/*' ],
+	ignorePatterns : [ 
+		'/node_modules/', 
+		'.eslintrc.js', 
+		'/config/jest/*.js' 
+	],
 	//javascript level
 	env: {
 		node   	: true,
 		es2020 	: true,
 	},
-	globals: [ '$' ],
 	
 	/* AST Parser spec */
 	parser		 : '@typescript-eslint/parser',
@@ -19,7 +26,9 @@ module.exports = {
 			jsx: true,
 		},
 		ecmaVersion: 2020,
-		sourceType: 'module'||'script',
+		sourceType: 'module',
+		tsconfigRootDir: '.',
+		project: './tsconfig.json'
 	},
 
 	/* Linting Rules */
@@ -27,37 +36,93 @@ module.exports = {
 	plugins: [
 		'react', 
 		'@typescript-eslint', 
-		'import'
+		'import',
+		'jest'
 	],
 	//룰 활성화 프리셋
 	extends: [
 		'eslint:recommended', 
 		'plugin:react/recommended', 
-		'plugin:import/recommeneded',
+		// 'plugin:import/recommended',
 		
 		'plugin:@typescript-eslint/recommended',
-		'plugin:@typescript-eslint/eslint-recommeded',
+		// "plugin:@typescript-eslint/recommended-requiring-type-checking",
+		'plugin:@typescript-eslint/eslint-recommended',
 		
 		'prettier',
-        'prettier/@typescript-eslint'
+		'prettier/@typescript-eslint',
 	],
-	rules: {},
+	rules: {
+		//ts
+		"@typescript-eslint/no-namespace"	: "off",
+		"@typescript-eslint/no-var-requires": "off",
+		"@typescript-eslint/no-inferrable"	: "off",
+		"@typescript-eslint/no-non-null-assertion"			: "off",
+		"@typescript-eslint/explicit-module-boundary-types"	: "off",
+		//react
+		"react/prop-types"		: "off",
+		"react/display-name"	: "off",
+		//jest
+		'jest/no-alias-methods'			: 'warn',
+        'jest/prefer-to-be-null'		: 'error',
+        'jest/prefer-to-be-undefined'	: 'error',
+        'jest/prefer-to-contain'		: 'error',
+        'jest/prefer-to-have-length'	: 'error'
+	},
 
 	overrides: [
-		//클라이언트 
+		/* Build */
 		{
-			files	: [ './src/client/**/*' ],
+			files	: [ './scripts/**/*' ],
 			env: {
 				node   	: true,
 				es2020 	: true,
 			},
+			parserOptions: {
+				ecmaFeatures: {
+				},
+				ecmaVersion: 2020,
+				sourceType: 'module',
+				tsconfigRootDir: __dirname,
+				project: './scripts/tsconfig.json'
+			},
+	
 		},
-		//서버
+		/* Client */ 
 		{
-			files	: [ './src/server/**/*' ],
+			files	: [ './src/client/**/*', './test/client/**/*' ],
+			env: {
+				node   	: false,
+				es2020 	: true,
+				jest 	: true,
+			},
+			parserOptions: {
+				ecmaFeatures: {
+					jsx: true,
+				},
+				ecmaVersion: 2020,
+				sourceType: 'module',
+				tsconfigRootDir: __dirname,
+				project: './src/client/tsconfig.json'
+			},
+	
+		},
+		/* Server */
+		{
+			files	: [ './src/server/**/*', './test/server/**/*' ],
 			env: {
 				node   	: true,
 				es2020 	: true,
+				jest 	: true,
+			},
+			parserOptions: {
+				ecmaFeatures: {
+					jsx: true,
+				},
+				ecmaVersion: 2020,
+				sourceType: 'script',
+				tsconfigRootDir: __dirname,
+				project: './src/server/tsconfig.json'
 			},
 		},
 	]

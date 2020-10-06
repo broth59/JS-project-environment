@@ -12,7 +12,7 @@ export default class TSModule implements Module {
     public loader  = 'awesome-typescript-loader'
     public options = {
         silent      	: false,
-		configFileName  : path.join(Path.config_ts, 'tsconfig.client.json'),
+		configFileName  : path.join(Path.client, 'tsconfig.json'),
 		useBabel    : true,
 		babelCore   : '@babel/core',
 		babelOptions: {

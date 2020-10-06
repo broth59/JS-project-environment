@@ -1,5 +1,5 @@
 {
-    "extends" : "./tsconfig.json",
+    "extends" : "../../tsconfig.json",
 
     "compilerOptions": {
         "target"        : "ESNext",
@@ -12,9 +12,8 @@
     },
 
     "include": [
-		"../../src/server/**/*",
-		"../../test/server/**/*",
-    ],
+		"./**/*",
+   ],
     "exclude": [
         "node_modules"
     ]

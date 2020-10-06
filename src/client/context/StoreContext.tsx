@@ -1,39 +1,39 @@
-import React, { FC, createContext, ReactNode, ReactElement, useContext, ComponentType } from 'react';
-import hoistNonReactStatics from 'hoist-non-react-statics';
-import { useLocalStore, useObserver } 	from 'mobx-react'
-import RootStore from '@client/store/RootStore'
+import React from 'react';
+import { useLocalStore, useObserver } from 'mobx-react';
+import { createStore, TStore } from '@client/store/RootStore';
+import { RootStore } from '@client/store/RootStore'
 
-export const StoreContext = createContext<RootStore>({} as RootStore);
+export const storeContext = React.createContext<TStore | null>(null);
 
-export type StoreComponent = FC<{
-  children	: ReactNode;
-}>;
+const root_store= new RootStore()
 
+export const StoreProvider: React.FC = ({ children }) => {
+//   const store = useLocalStore(createStore) as any; 
+  return (
+    <storeContext.Provider value={root_store}>
+      {children}
+    </storeContext.Provider>
+  );
+};
 
-export const StoreProvider = StoreContext.Provider
+export const useStoreData = <Selection, ContextData, Store>(
+	context: React.Context<ContextData>,
+	storeSelector: (contextData: ContextData) => Store,
+	dataSelector: (store: Store) => Selection
+  ):Selection => {
+	const value = React.useContext(context);
+	if (!value) {
+	  throw new Error();
+	}
+	const store = storeSelector(value);
+	return useObserver(() => {
+	  return dataSelector(store);
+	});
+  };
 
-export function useStore():RootStore {
-	return useContext(StoreContext)
-}
+export const useRootData = <Selection extends unknown>(
+	dataSelector: (store: TStore) => Selection
+) =>
+useStoreData(storeContext, contextData => contextData!, dataSelector); 
 
-export type TWithStoreHOC = <P extends unknown>(
-    Component: ComponentType<P>,
-) => (props: P) => JSX.Element;
-
-
-export const withStore: TWithStoreHOC = (WrappedComponent) => (props) => {
-    const ComponentWithStore = () => {
-        const store = useStore();
-		
-        return <WrappedComponent {...props} store={store} />;
-    };
-
-    ComponentWithStore.defaultProps = { ...WrappedComponent.defaultProps };
-    ComponentWithStore.displayName = `WithStores(${
-        WrappedComponent.name || WrappedComponent.displayName
-    })`;
-
-    hoistNonReactStatics(ComponentWithStore, WrappedComponent);
-
-    return <ComponentWithStore/>;
-}
+export default StoreProvider;
