@@ -1,7 +1,9 @@
 import { observable, makeAutoObservable, action, computed } from "mobx";
 import { autobind } from "core-decorators";
 import { intercept } from "../decorators/aop/intercept";
+import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
 
+	
 @autobind
 export class RootStore {
 	
@@ -104,9 +106,28 @@ export class Auto {
 		return this.name
 	}
 
-	async setName(){		
+	async setName(){
+		const client = new ApolloClient({
+			uri: 'https://48p1r2roz4.sse.codesandbox.io',
+			cache: new InMemoryCache()
+		});		
+		client
+		.query({
+			query: gql`
+				query GetRates {
+					rates(currency: "USD") {
+					currency
+					}
+				}
+			`
+			,
+			variables: {
+				
+			}
+		})
+		.then(result => console.log(result));
 		this.name += '^tail'
-		throw 'HIHI'
+		
 	}
 
 }

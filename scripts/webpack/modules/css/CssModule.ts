@@ -1,4 +1,4 @@
-import { EnvKey } from '@config/env'
+import { ENVKEY } from '@config/env'
 import { Inject, InjectValue, Container } from 'typescript-ioc';
 import webpack from 'webpack';
 import Module from '../Module';

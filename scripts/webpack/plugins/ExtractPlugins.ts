@@ -1,4 +1,4 @@
-import { EnvKey } from '@config/env'
+import { ENVKEY } from '@config/env'
 import { Container, InjectValue } from 'typescript-ioc'
 import ManifestPlugin       from 'webpack-manifest-plugin'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
@@ -10,10 +10,10 @@ import Plugins from './Plugins'
 
 export default class ExtractPlugins implements Plugins {
 
-	@InjectValue(EnvKey.Webpack.SHOULD_BE_VERBOS)
+	@InjectValue(ENVKEY.CLIENT.WEBPACK.SHOULD_BE_VERBOS)
     private should_be_verbose?: boolean	
 	
-	@InjectValue(EnvKey.Webpack.PUBLIC_PATH)
+	@InjectValue(ENVKEY.SERVER.PUBLIC_PATH)
     private public_path?: string	
 
 
@@ -21,22 +21,22 @@ export default class ExtractPlugins implements Plugins {
   
     private resolveManifest(){
         return new ManifestPlugin({
-			fileName		: 'asset-manifest.json',
+			fileName	: 'asset-manifest.json',
 			publicPath	: this.public_path,
-			generate		: (seed, files, entrypoints) => {
-				const manifestFiles = files.reduce((manifest:any, file) => {
-				const file_name = file.name! 
-				const file_paht = file.path
-				manifest[file_name] = file.path
-				return manifest
+			generate	: (seed, files, entrypoints) => {
+					const manifestFiles = files.reduce((manifest:any, file) => {
+					const file_name = file.name! 
+					const file_path = file.path
+					manifest[file_name] = file_path
+					return manifest
 				}, seed)
 				const entrypointFiles = entrypoints.main.filter(
-				fileName => !fileName.endsWith('.map')
+					fileName => !fileName.endsWith('.map')
 				)
 	
 				return {
-				files		: manifestFiles,
-				entrypoints	: entrypointFiles,
+					files		: manifestFiles,
+					entrypoints	: entrypointFiles,
 				}
 			},
         })

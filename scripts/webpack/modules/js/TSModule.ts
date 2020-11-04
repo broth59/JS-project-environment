@@ -1,7 +1,7 @@
 import path from 'path'
 //config
 import Module from '../Module'
-import { EnvKey } 		from '@config/env'
+import { ENVKEY } 		from '@config/env'
 import { Container } 	from 'typescript-ioc'
 import { Path } 		from '@config/paths'
 import BABEL_CONFIG		from '@config/babel/babelrc' 
@@ -25,7 +25,7 @@ export default class TSModule implements Module {
 		should_be_silent?:boolean
 	){
 		if(should_be_silent === null && should_be_silent === undefined){
-			this.options.silent = Container.getValue(EnvKey.Webpack.SHOULD_BE_VERBOS)
+			this.options.silent = Container.getValue(ENVKEY.CLIENT.WEBPACK.SHOULD_BE_VERBOS)
 		}else{
 			this.options.silent = should_be_silent!	
 		}

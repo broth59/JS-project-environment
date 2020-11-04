@@ -1,4 +1,4 @@
-import { EnvKey } from '@config/env'
+import { ENVKEY } from '@config/env'
 import { Container, InjectValue } from 'typescript-ioc'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import webpack from 'webpack'
@@ -10,10 +10,10 @@ import fs from 'fs'
 
 export default class HtmlPlugins implements Plugins {
 	
-	@InjectValue(EnvKey.Webpack.SHOULD_BE_VERBOS)
+	@InjectValue(ENVKEY.CLIENT.WEBPACK.SHOULD_BE_VERBOS)
     private should_be_specific?: boolean
 
-	@InjectValue(EnvKey.Webpack.PUBLIC_PATH)
+	@InjectValue(ENVKEY.SERVER.PUBLIC_PATH)
     private public_path?: string
 	
     constructor( ){

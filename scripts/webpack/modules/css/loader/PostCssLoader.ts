@@ -1,9 +1,9 @@
-import { EnvKey } from '@config/env'
+import { ENVKEY } from '@config/env'
 import webpack from 'webpack';
 import { Container } from 'typescript-ioc';
 
 
-const should_use_source_map = Container.getValue(EnvKey.Webpack.SHOULD_BE_VERBOS)
+const should_use_source_map = Container.getValue(ENVKEY.CLIENT.WEBPACK.SHOULD_BE_VERBOS)
 
 export default class PostCssLoader implements webpack.RuleSetLoader {
     

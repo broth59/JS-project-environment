@@ -1,17 +1,16 @@
 import webpack from "webpack"
-import WebpackDevServer from "webpack-dev-server"
-import { EnvKey } from '@config/env'
+import { ENVKEY } from '@config/env'
 import { Container } from './bootstrap'
 import 'colors'
-
-const compiler = webpack(Container.getValue(EnvKey.Webpack.WEBPACK_COMPILER_CONFIG))
+ 
+const compiler = webpack(Container.getValue(ENVKEY.SERVER.WEBPACK.COMPILER_CONFIG))
 compiler.run((err, stats)=>{
 	if(err){
 		console.log(err.message)
 	}
-
+	console.log(err)
 	const stats_info = stats.toJson() 
-	if(stats.hasErrors()){
+	if(stats.hasErrors()){ 
 		console.log(stats_info.errors.join('\n').red)
 	}
 	if(stats.hasWarnings()){

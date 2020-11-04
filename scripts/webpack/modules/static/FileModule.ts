@@ -1,4 +1,4 @@
-import { EnvKey } from '@config/env'
+import { ENVKEY } from '@config/env'
 import { Container, InjectValue } from 'typescript-ioc';
 import Module from '../Module';
 
