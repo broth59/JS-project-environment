@@ -1,6 +1,6 @@
 import { EnvKey } from '@config/env'
 import webpack from 'webpack';
-import { Container, InjectValue, Inject } from 'typescript-ioc';
+import { Container } from 'typescript-ioc';
 
 
 const should_use_source_map = Container.getValue(EnvKey.Webpack.SHOULD_BE_VERBOS)

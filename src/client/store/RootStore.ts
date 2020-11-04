@@ -1,6 +1,6 @@
 import { observable, makeAutoObservable, action, computed } from "mobx";
-import StoreProvider from "@client/context/StoreContext";
 import { autobind } from "core-decorators";
+import { intercept } from "../decorators/aop/intercept";
 
 @autobind
 export class RootStore {
@@ -10,7 +10,7 @@ export class RootStore {
 
 	constructor(){
 		this.query_store = new QueryStore(this)
-		this.auto_store = new AutoStore(this)
+		this.auto_store  = new AutoStore(this)
 	}
 	
 }
@@ -57,7 +57,7 @@ class QueryStore{
 }
 
 @autobind
-class AutoStore {
+export class AutoStore {
 	static seiral = 1
 	@observable
 	auto_list:Array<Auto> = [ new Auto('tt'), new Auto('aa') ]
@@ -71,7 +71,7 @@ class AutoStore {
 	}
 
 	@computed
-	get getAutoList(){
+	getAutoList(){
 		return this.auto_list
 	}
 
@@ -83,20 +83,32 @@ class AutoStore {
 
 }
 
-@autobind
+
+// @autobind
+@intercept((fn)=>{
+	const result = fn()
+	if(result instanceof Promise){
+		fn().catch(alert)
+	}
+	return result
+})
 export class Auto {
 	@observable
 	public name:string
 
 	constructor(name:string){
 		this.name = name
-		makeAutoObservable(this)
 	}
 
-	@computed
 	getName(){
 		return this.name
 	}
+
+	async setName(){		
+		this.name += '^tail'
+		throw 'HIHI'
+	}
+
 }
 
 
@@ -106,3 +118,5 @@ export const createStore = () => {
 };
 
 export type TStore = RootStore//ReturnType<typeof createStore>;
+
+

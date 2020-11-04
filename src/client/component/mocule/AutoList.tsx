@@ -1,27 +1,36 @@
 import React from 'react';
-import { Auto } from '@client/store/RootStore'
-import { storeContext, useStoreData } from '@client/context/StoreContext';
+import { Auto, RootStore, AutoStore } from '@client/store/RootStore'
+import { inject, StoreProps } from '@client/context/StoreContext';
+import { observer } from 'mobx-react';
 
-export const AutoView: React.FC<{ auto: Auto }> = ({ auto }) => {
+export const AutoView: React.FC<{ auto: Auto }> = observer(({ auto }) => {
   return (
-    <li>
+    <li onClick={auto.setName}>
       {auto.getName()}
     </li>
-  );
-}
+  )
+})
 
-export const AutoList = () => {
-  	const auto_store = useStoreData(storeContext, x=>x!.auto_store, x=>x);
-	const query_store = useStoreData(storeContext, x=>x!.query_store, x=>x);
+
+export class AutoList extends React.Component<PartialMethods<AutoStore>, any>{
 	
-	return (
-		<>
-			<ul>	
-				{auto_store.auto_list.map((val,index)=><div key={index}>{val.name}</div> )}
-			</ul>
-			<button onClick={auto_store.addNewAuto}>추갓{auto_store.trigger}</button>
-		</>
-	)
+	state = {
+		hi : 0
+	}
+
+
+	render(){
+		const { getAutoList, addNewAuto } = this.props
+
+		return (
+			<>
+				<ul>	
+					{getAutoList!().map((auto,index)=><AutoView auto={auto} key={index} /> )}
+				</ul>
+				<button onClick={()=>{addNewAuto!();}}>추갓</button>
+			</>
+		)
+	}
 }
 
-export default AutoList;
+export default  inject(x=>x.auto_store)(AutoList);

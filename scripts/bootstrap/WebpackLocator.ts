@@ -45,7 +45,7 @@ Container
 			/* Define entries */
 			context: Path.client,
 			entry   : [ 
-				//'webpack/hot/dev-server',
+				'babel-polyfill',
 				'./index'
 			],
 			resolve: {

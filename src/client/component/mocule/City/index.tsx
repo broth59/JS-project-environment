@@ -1,5 +1,4 @@
 import React from 'react';
-import { useObserver } from 'mobx-react-lite';
 import { storeContext, useStoreData } from '@client/context/StoreContext';
 
 export const CityView: React.FC<{ cities: string[] }> = ({ cities }) => {
