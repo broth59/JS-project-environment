@@ -14,7 +14,7 @@ module.exports = {
 		//typescript
 		'ts-jest' : {
 			diagnostics: true,
-			tsconfig: '../../test/server/tsconfig.json',
+			tsconfig: './test/server/tsconfig.json',
 			babelConfig: BABEL_CONFIG
 		}
 	},

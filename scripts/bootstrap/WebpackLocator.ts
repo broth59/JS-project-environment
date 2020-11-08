@@ -14,7 +14,26 @@ import { Path } 		from '@config/paths'
 import WebpackDevServer from 'webpack-dev-server'
 
 
-/* Configure Webpack artificial domains */
+Container
+    .bindName(ENVKEY.CLIENT.WEBPACK.PATH_ALIAS)
+    .to((()=>{
+    
+        return  {
+			'@config'       : Path.config,
+			'@server'       : Path.server,                
+			'@interface'    : Path.interface,
+			'@domain'       : Path.domain,
+			'@client'       : Path.client,
+			'@component'    : Path.component,
+			'@page'       	: path.join(Path.component, 'page'),
+			'@store'       	: path.join(Path.client, 'store'),
+			'@hooks'       	: path.join(Path.client, 'hooks'),
+			'@decorators'   : path.join(Path.client, 'decorators'),
+		}
+
+    })())
+
+
 Container
     .bindName(ENVKEY.CLIENT.WEBPACK.CSS_PROCESSORS)
     .to((()=>{
@@ -31,7 +50,7 @@ Container
     })())
 
 
-/* Build/Watch webpack */
+
 Container
 	.bindName(ENVKEY.CLIENT.WEBPACK.COMPILER_CONFIG)
 	.to((()=>{
@@ -41,6 +60,7 @@ Container
 		const devtool  = should_be_specifict ? '#@inline-source-map' : ''
 		//resource
 		const public_path = Container.getValue(ENVKEY.SERVER.PUBLIC_PATH)
+		const alias_path  = Container.getValue(ENVKEY.CLIENT.WEBPACK.PATH_ALIAS)
 
 		return {
 			/* Define entries */
@@ -51,15 +71,7 @@ Container
 			],
 			resolve: {
 				extensions: ['.js', '.jsx', '.ts', '.tsx'],
-				alias: {
-					'@config'       : Path.config,
-					'@server'       : Path.server,                
-					'@interface'    : Path.interface,
-					'@domain'       : Path.domain,
-					'@client'       : Path.client,
-					'@component'   : Path.component,
-					'@page'       	: path.join(Path.component, 'page'),
-				}
+				alias: alias_path,
 			},
 
 			/* Define loaders */
@@ -68,7 +80,7 @@ Container
 					{
 						oneOf: [
 							//Transcompile ts|tsx
-							new JsModule.TSModule(),                       
+							new JsModule.TSModule(path.join(Path.client, 'tsconfig.json'), true),                       
 
 							//Transcompile css
 							new CssModule.CssModule(),
@@ -159,41 +171,30 @@ Container
 		const devtool  = should_be_specifict ? '#@inline-source-map' : ''
 		//resource
 		const public_path = Container.getValue(ENVKEY.SERVER.PUBLIC_PATH)
+		const alias_path  = Container.getValue(ENVKEY.CLIENT.WEBPACK.PATH_ALIAS)
 
 		return {
 			/* Define entries */
 			context: Path.server,
 			target: 'node',
+			node: {
+				__dirname: false
+			},
 			entry   : [
 				'./index'
 			],
 			resolve: {
 				extensions: ['.js', '.jsx', '.ts', '.tsx'],
-				alias: {
-					'@config'       : Path.config,
-					'@server'       : Path.server,                
-					'@interface'    : Path.interface,
-					'@domain'       : Path.domain,
-					'@client'       : Path.client,
-					'@component'    : Path.component,
-					'@page'       	: path.join(Path.component, 'page'),
-				}
+				alias: alias_path
 			},
 
 			/* Define loaders */
 			module  : {
 				rules: [
 					{
-						oneOf: [{
-							  test    : /\.(ts|tsx)$/
-							, exclude : /node_modules/
-							, loader  : 'awesome-typescript-loader'
-							, options : {
-								silent      	: false,
-								configFileName  : path.join(Path.server, 'tsconfig.json'),
-								useBabel    	: false,
-							}	                       
-						}]
+						oneOf: [
+							new JsModule.TSModule(path.join(Path.server, 'tsconfig.json'), false)                     
+						]
 					}                 
 				]
 			},

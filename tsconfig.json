@@ -45,6 +45,10 @@
       "@client/*" 	 	: ["src/client/*"],
 	  "@component/*" 	: ["src/client/component/*"],
 	  "@page/*" 		: ["src/client/component/page/*"],
+	  "@store/*"        : ["src/client/store/*"],
+	  "@hooks/*"        : ["src/client/hooks/*"],
+	  "@decorators/*"   : ["src/client/decorators/*"],
+
 
       //server
       "@server/*" 		: ["src/server/*"],
@@ -96,7 +100,7 @@
 
   "include": [
     "../../**/*",
-    "../../src/**/*",
+    "../../src/**/*", "src/interface/entity/.ts",
   ],
 
   "exclude": [

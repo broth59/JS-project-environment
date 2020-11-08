@@ -20,13 +20,18 @@ dev_server.listen(port, host, (err) => {
   //openBrowser(urls.localUrlForBrowser);
 });
 
+closeDevserverOnExit()
 
-//dev server 종료
-['SIGINT', 'SIGTERM'].forEach(function(sig) {
-    process.on(sig, function() {
-		dev_server.close();
-      process.exit();
-    });
-});
+
+
+function closeDevserverOnExit(){
+	['SIGINT', 'SIGTERM', 'uncaughtException'].forEach(function(sig) {
+		process.on(sig, function() {
+			dev_server.close();
+		  process.exit();
+		});
+	});
+}
+
 
 

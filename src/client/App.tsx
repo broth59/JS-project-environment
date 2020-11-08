@@ -1,24 +1,29 @@
 ///<reference types="ordinary-type-bundle" />
 import React from 'react';
-import StoreProvider from '@client/context/StoreContext'
-import CityList from '@component/mocule/City';
-import Search from '@component/mocule/Search'
 import { hot } from 'react-hot-loader/root'
-import AutoList from './component/mocule/AutoList';
+
+import '@client/bootstrap'
+import StoreProvider from '@client/context/StoreContext'
+import { UI } from '@hooks/UI'
+//components 
+import Header from '@component/organic/Header'
+import Sidebar from '@component/organic/Sidebar';
+import Main from '@component/organic/Main';
+//css
+import loadCss from './App.css'
 
 const App: React.FC = () => {
-  return (
-	<StoreProvider>
-		<div className="App">
-			<header className="App-header">
-				<Search/>
-				<CityList/>
-				<AutoList/>
-				<div>Not render</div>
-			</header>
-		</div>
-	</StoreProvider>
-  );
+	const { app } = loadCss({} as any)
+
+	return (
+		<StoreProvider>
+			<div className="App" css={app}>
+				<Header/>
+				<Sidebar/>
+				<Main/>
+			</div>
+		</StoreProvider>
+	);
 }
 
 

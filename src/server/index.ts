@@ -1,30 +1,35 @@
-import { Container, ENVKEY } from '@config/env'
-import express from 'express'
-import morgan from 'morgan'
-import cors from 'cors' 
-import cookieParser from 'cookie-parser'
-import expressSession from 'express-session'
-import passport from 'passport'
-import hpp from 'hpp'
-import helmet from 'helmet'  
- 
-  
-const app = express()
+import { ENVKEY } from '@config/env'
+import { Container } from '@server/bootstrap'
+import { Express } from 'express' 
+import 'colors'
+//error 
+import ErrorHandlers from './error/handler'
+import ERROR from './error/type'
 
 
 const PORT = Container.getValue(ENVKEY.SERVER.PORT)
 const HOST = Container.getValue(ENVKEY.SERVER.HOST)
+ 
+;(async ()=>{
+   
+	const [app]:[Express] = await Container.getValue(ENVKEY.SERVER.EXPRESS.APP)()
 
-app.listen(PORT, HOST, ()=>{
-	console.log('listening')
-})
+	app.listen(PORT, HOST, ()=>{ 
+		console.log(`listening on ${PORT}`)
+	})
 
-app.get('/', (req, res)=>{
-	console.log('ready to root')
-	res.send('welcome to rootasdas')
-})
+	app.get('/', (req, res)=>{
+		console.log('ready to root')
+		res.send('welcome to rootasdas')
+	})
+ 
+	app.use('*', function (req, res, next) {
+		throw Error(ERROR.HTTP.HTTP_404)
+	})
+ 
 
-app.get('/graphql', (req, res, next)=>{
-	
-	console.log('ready to graphql')
-})
+	app.use(ErrorHandlers)
+
+
+})().catch(e=>console.log(e.message['red']))
+

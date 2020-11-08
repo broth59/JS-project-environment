@@ -22,13 +22,33 @@ export default class TSModule implements Module {
 	}
 	
 	constructor(
-		should_be_silent?:boolean
+		config_file_name:string,
+		require_tranplie?: boolean,
+		should_be_silent?:boolean,
 	){
+		this.confirmShouldBeSilent(should_be_silent)
+		this.confirmUseBabel(require_tranplie)
+		this.setTSConfigFileName(config_file_name)
+	}
+
+	private confirmShouldBeSilent(should_be_silent:boolean|undefined){
 		if(should_be_silent === null && should_be_silent === undefined){
 			this.options.silent = Container.getValue(ENVKEY.CLIENT.WEBPACK.SHOULD_BE_VERBOS)
 		}else{
 			this.options.silent = should_be_silent!	
 		}
+	}
+
+	private confirmUseBabel(require_tranplie:boolean|undefined){
+		if(require_tranplie === null && require_tranplie === undefined){
+			this.options.useBabel = true
+		}else{
+			this.options.useBabel = require_tranplie!	
+		}
+	}
+
+	private setTSConfigFileName(config_file_name:string){
+		this.options.configFileName = config_file_name
 	}
     
 }

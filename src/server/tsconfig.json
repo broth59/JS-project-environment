@@ -8,11 +8,11 @@
         "jsxFactory"    : "React.createElement",              // jsx 팩토리 함수 설정,    
         "resolveJsonModule"             : true,
 
-        "outDir": "../../dist",
+        "outDir": "../../scripts/bootstrap/dist",
     },
 
     "include": [
-		"./**/*",
+		"./**/*"
    ],
     "exclude": [
         "node_modules"

@@ -12,11 +12,11 @@
         "jsxFactory": "React.createElement",              // jsx 팩토리 함수 설정,      
 		   
 
-        "outDir": "../../dist/client"
+        "outDir": "../../scripts/bootstrap/dist/client"
     },
 
     "include": [
-        "./**/*",
+        "./**/*", "../interface/domain/User/User.ts",
     ],
     "exclude": [
         "node_modules"

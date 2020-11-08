@@ -48,7 +48,9 @@ module.exports = {
         "@typescript-eslint/no-inferrable": "off",
         "@typescript-eslint/no-explicit-any": "off",
         "@typescript-eslint/no-non-null-assertion": "off",
-        "@typescript-eslint/explicit-module-boundary-types": "off",
+		"@typescript-eslint/explicit-module-boundary-types": "off",
+		"@typescript-eslint/no-empty-interface": "off",
+		"no-debugger" : "off",
         //react
         "react/prop-types": "off",
         "react/display-name": "off",
@@ -89,7 +91,7 @@ module.exports = {
                     jsx: true,
                 },
                 ecmaVersion: 2020,
-                sourceType: "module",
+                sourceType: "script",
                 tsconfigRootDir: __dirname,
                 project: "./src/client/tsconfig.json",
             },
@@ -107,10 +109,46 @@ module.exports = {
                     jsx: true,
                 },
                 ecmaVersion: 2020,
-                sourceType: "script",
+                sourceType: "module",
                 tsconfigRootDir: __dirname,
                 project: "./src/server/tsconfig.json",
             },
-        },
+		},
+		/* Test Client*/
+        {
+            files: ["./test/**/*", ],
+            env: {
+                node: true,
+                es2020: true,
+                jest: true,
+            },
+            parserOptions: {
+                ecmaFeatures: {
+                    jsx: true,
+                },
+                ecmaVersion: 2020,
+                sourceType: "scripts",
+                tsconfigRootDir: __dirname,
+                project: "./test/client/tsconfig.json",
+            },
+		},
+		/* Test Server*/
+        {
+            files: ["./test/**/*", ],
+            env: {
+                node: true,
+                es2020: true,
+                jest: true,
+            },
+            parserOptions: {
+                ecmaFeatures: {
+                    jsx: true,
+                },
+                ecmaVersion: 2020,
+                sourceType: "module",
+                tsconfigRootDir: __dirname,
+                project: "./test/server/tsconfig.json",
+            },
+		},
     ],
 };

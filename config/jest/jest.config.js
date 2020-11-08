@@ -74,6 +74,10 @@ module.exports = {
 		"@client/(.+)" 		: "<rootDir>/src/client/$1",
 		"@component/(.+)" 	: "<rootDir>/src/client/component/$1",
 		"@page/(.+)" 		: "<rootDir>/src/client/component/page/$1",
+		"@store/(.+)"       : "<rootDir>/src/client/store/$1",
+		"@hooks/(.+)"       : "<rootDir>/src/client/hooks/$1",
+		"@decorators/(.+)"  : "<rootDir>/src/client/decorators/$1",
+
 		//server
 		"@server/(.+)" 		: "<rootDir>/src/server/$1",
 

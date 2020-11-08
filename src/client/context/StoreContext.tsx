@@ -1,19 +1,23 @@
 import React, { ComponentType } from 'react';
 import { useLocalStore, useObserver, observer } from 'mobx-react';
-import { createStore, TStore } from '@client/store/RootStore';
+import { TStore } from '@client/store/RootStore';
 import { RootStore } from '@client/store/RootStore'
 import hoistNonReactStatics from 'hoist-non-react-statics';
+import { Container, ENVKEY } from '@client/bootstrap'
 
 export const storeContext = React.createContext<TStore | null>(null);
 
 
 export const StoreProvider: React.FC = ({ children }) => {
-  const store = useLocalStore(createStore) as any 
-  return (
-    <storeContext.Provider value={store.value_}>
-      {children}
-    </storeContext.Provider>
-  )
+
+	const createStore = React.useCallback(()=>Container.getValue(ENVKEY.CLIENT.STORE.ROOT), [])
+	const store = useLocalStore(createStore) as any 
+
+	return (
+		<storeContext.Provider value={store.value_}>
+			{children}
+		</storeContext.Provider>
+	)
 }
 
 export const useStoreData = <Selection, ContextData, Store>(
