@@ -2,12 +2,13 @@ import { observable } from 'mobx';
 import { autobind } from 'core-decorators';
 import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
 import { UIStore } from './UI/UIStore';
+import { LectureStore } from '@store/Lecture/LectureStore';
 
 @autobind
 export class RootStore {
     ui_store: UIStore;
     user_store: any; //UserStore
-    lecture_store: any; //LectureStore
+    lecture_store: LectureStore;
     assignment_store: any; //AssignmentStore
 
     constructor({
@@ -24,38 +25,5 @@ export class RootStore {
 }
 
 export default RootStore;
-
-class Auto {
-    @observable
-    public name: string;
-
-    constructor(name: string) {
-        this.name = name;
-    }
-
-    getName() {
-        return this.name;
-    }
-
-    async setName() {
-        const client = new ApolloClient({
-            uri: 'https://48p1r2roz4.sse.codesandbox.io',
-            cache: new InMemoryCache(),
-        });
-        client
-            .query({
-                query: gql`
-                    query GetRates {
-                        rates(currency: "USD") {
-                            currency
-                        }
-                    }
-                `,
-                variables: {},
-            })
-            .then((result) => console.log(result));
-        this.name += '^tail';
-    }
-}
 
 export type TStore = RootStore; //ReturnType<typeof createStore>;

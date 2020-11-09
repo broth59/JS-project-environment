@@ -3,6 +3,7 @@ import { Pallete } from '@client/store/UI/Theme';
 import { Screen } from '@component/css/Screen';
 
 const { mobile, tablet, laptop, desktop } = Screen.media_query;
+const { flex } = Screen;
 
 export default ({
     PRIMARY_COLOR,
@@ -10,30 +11,16 @@ export default ({
     COMPLEMENTARY_COLOR,
 }: Pallete) => {
     return {
-        area: css`
-			display: flex;
+        content_title: css`
+            ${flex.center()}
+            padding: 1em;
 
-			grid-column: 2 / -1;
-			grid-row: 2 / -1;
-			
-			background-color: white;
-			
-            &:hover {
-                background-color: white;
-            }
+            color: ${PRIMARY_COLOR};
 
-            ${mobile(css`
-				grid-column: 1 / -1;
-            `)}
-
-			${tablet(css`
-				grid-column: 1 / -1;
-			`)}
-
+            ${mobile(css``)}
+            ${tablet(css``)}
 			${laptop(css``)}
-
 			${desktop(css``)}
-		`,
-		
+        `,
     };
 };

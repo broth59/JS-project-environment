@@ -1,17 +1,31 @@
-import { Entity, Column, PrimaryColumn, ManyToOne, OneToOne } from 'typeorm';
+import {
+    Entity,
+    Column,
+    PrimaryColumn,
+    ManyToOne,
+    OneToOne,
+    Tree,
+    OneToMany,
+} from 'typeorm';
 import { ObjectType, Field, ID, InputType } from 'type-graphql';
 import LectureContentEntity from './LectureContentEntity';
 
-@Entity({ name: 'TB_LECTURE_MASTER' })
+@Entity('TB_LECTURE_MASTER')
 @ObjectType()
 export default class LectureEntity {
     @PrimaryColumn({ name: 'CONTENT_NO' })
-    @Field(() => ID, { nullable: true })
+    @Field(() => ID)
     content_no?: number;
 
-    @ManyToOne(() => LectureEntity, (lecture) => lecture.content_no)
+    @Field(() => Number)
+    @Column({ nullable: true, name: 'UPPER_CONTENT_NO' })
+    upper_content_no?: number;
+
     @Field(() => LectureEntity)
-    upper_content_no?: LectureEntity;
+    upper_lecture?: LectureEntity;
+
+    @Field(() => [LectureEntity], { nullable: 'itemsAndList' })
+    child_lectures?: LectureEntity[];
 
     @Column({ name: 'CONTENT_TITLE' })
     @Field(() => String)
@@ -21,11 +35,11 @@ export default class LectureEntity {
     @Field(() => String)
     content_regist_date?: string;
 
-    @Column({ name: 'TITLE_IMAGE_PATH', nullable: true })
+    @Column({ nullable: true, name: 'TITLE_IMAGE_PATH' })
     @Field(() => String)
     title_image_path?: string;
 
-    @Column({ name: 'CONTENT_OUTLINE', nullable: true })
+    @Column({ nullable: true, name: 'CONTENT_OUTLINE' })
     @Field(() => String)
     content_outline?: string;
 
@@ -44,6 +58,8 @@ export default class LectureEntity {
             this.title_image_path = data.title_image_path;
             this.content_regist_date = data.content_regist_date;
             this.content_outline = data.content_outline;
+            this.upper_lecture = data.upper_lecture;
+            this.child_lectures = data.child_lectures;
             this.lecture_content = data.lecture_content;
         }
     }
@@ -57,14 +73,10 @@ export default class LectureEntity {
             content_outline: lecture_entity.content_outline,
             content_regist_date: lecture_entity.content_regist_date,
             content_title: lecture_entity.content_title,
+            upper_content_no: lecture_entity.upper_content_no,
+            upper_lecture: lecture_entity.upper_lecture,
+            child_lectures: lecture_entity.child_lectures,
         });
-
-        const upper_content_no = lecture_entity.upper_content_no;
-        if (upper_content_no && typeof upper_content_no === 'number') {
-            lecture.upper_content_no = new LectureEntity({
-                content_no: upper_content_no,
-            });
-        }
 
         return lecture;
     }

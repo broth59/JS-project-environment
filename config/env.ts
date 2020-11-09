@@ -32,6 +32,7 @@ export namespace ENVKEY {
 
         export namespace STORE {
             export const ROOT = '@env/client/store/root';
+            export const CLIENT = '@env/client/store/client';
         }
     }
 

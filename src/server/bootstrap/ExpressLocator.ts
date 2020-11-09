@@ -1,20 +1,20 @@
-import { Container, ENVKEY, Profile } from "@config/env";
-import express, { Express } from "express";
-import morgan from "morgan";
-import cors from "cors";
-import cookieParser from "cookie-parser";
-import { buildSchema } from "type-graphql";
-import { createConnection, ConnectionOptions, EntityManager } from "typeorm";
-import { Repository } from "typeorm";
-import session from "express-session";
-import { ApolloServer } from "apollo-server-express";
-import hpp from "hpp";
-import helmet from "helmet";
+import { Container, ENVKEY, Profile } from '@config/env';
+import express, { Express } from 'express';
+import morgan from 'morgan';
+import cors from 'cors';
+import cookieParser from 'cookie-parser';
+import { buildSchema } from 'type-graphql';
+import { createConnection, ConnectionOptions, EntityManager } from 'typeorm';
+import { Repository } from 'typeorm';
+import session from 'express-session';
+import { ApolloServer } from 'apollo-server-express';
+import hpp from 'hpp';
+import helmet from 'helmet';
 
-import ResolverContext from "@server/graphql/type/ResolverContext";
-import Entities from "@interface/entity";
-import Resolvers from "@server/graphql/resolver";
-import * as Routes from "@server/router";
+import ResolverContext from '@server/graphql/type/ResolverContext';
+import Entities from '@interface/entity';
+import Resolvers from '@server/graphql/resolver';
+import * as Routes from '@server/router';
 
 const HOST = Container.getValue(ENVKEY.SERVER.HOST);
 const DB_CONFIG = Container.getValue(ENVKEY.SERVER.DB_CONFIG);
@@ -25,7 +25,7 @@ Container.bindName(ENVKEY.SERVER.EXPRESS.APP).to(async () => {
     const app = express();
     // app.use(hpp())
     // app.use(helmet())
-    app.use(morgan("combined"));
+    // app.use(morgan("combined"));
     // app.use(cors({
     // 	origin: new RegExp(HOST),
     // 	credentials: true,
@@ -52,7 +52,7 @@ Container.bindName(ENVKEY.SERVER.EXPRESS.APP).to(async () => {
 
     app.use(hpp());
     app.use(helmet());
-    app.use(morgan("combined"));
+    app.use(morgan('combined'));
     app.use(
         cors({
             origin: new RegExp(HOST),

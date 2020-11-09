@@ -20,7 +20,7 @@ export default ({
 		
 			display: grid;
 			grid-template-rows: repeat(${ROWS}, ${HEIGHT/ROWS}vh);
-			grid-template-columns: repeat(${COLS}, ${HEIGHT/COLS}vw);
+			grid-template-columns: repeat(${COLS}, minmax(${320/COLS}px,${HEIGHT/COLS}vw));
 			;
 
 			width: ${WIDTH}vw;
@@ -30,7 +30,9 @@ export default ({
                 background-color: ${COMPLEMENTARY_COLOR};
             }
 
-            ${mobile(css``)}
+			${mobile(css`
+				min-width: 320px;
+			`)}
 
             ${tablet(css``)}
 

@@ -1,4 +1,4 @@
-import React, { ComponentType } from 'react';
+import React, { ComponentType, ReactNode } from 'react';
 import { useLocalStore, useObserver, observer } from 'mobx-react';
 import { TStore } from '@client/store/RootStore';
 import { RootStore } from '@client/store/RootStore'
@@ -40,11 +40,11 @@ export const useRootData = <Selection extends unknown>(
 ) => useStoreData(storeContext, contextData => contextData!, dataSelector); 
 
 
-export function inject<SubStore extends any>(selector:(root_store:RootStore)=>SubStore){
-	return (WrappedComponent:ComponentType<PartialMethods<SubStore>>)=>{
+export function inject<SubStore>(selector:(root_store:RootStore)=>SubStore){
+	return (WrappedComponent:ComponentType<{ store: PartialMethods<SubStore> }> )=>{
 		WrappedComponent = observer(WrappedComponent)
 		
-		return (props:PartialMethods<SubStore>)=>{
+		return (props:{ store:PartialMethods<SubStore> } & { children?:ReactNode } & any)=>{
 			
 			const ComponentWithStore = observer(()=>{
 				const store = useRootData(selector) as any
@@ -56,7 +56,7 @@ export function inject<SubStore extends any>(selector:(root_store:RootStore)=>Su
 					return acc
 				}, {} as any)
 
-				return <WrappedComponent {...props} {...methods } />
+				return <WrappedComponent {...props} store={methods} />
 			})
 			
 			hoistNonReactStatics(ComponentWithStore, WrappedComponent)

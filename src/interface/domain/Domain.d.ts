@@ -1,6 +1,5 @@
-
 export default abstract class Domain {
-	abstract getEntity():any
+    abstract getEntity(): any;
 }
 
-export { Domain }
+export { Domain };

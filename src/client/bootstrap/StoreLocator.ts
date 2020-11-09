@@ -3,6 +3,21 @@ import { ENVKEY, Container } from '@config/env';
 import RootStore from '@client/store/RootStore';
 import DefaultThemeStore from '@client/store/UI/DefaultThemestore';
 import { DefaultTheme } from '@client/store/UI/Theme';
+import { ApolloClient, InMemoryCache } from '@apollo/client';
+import LectureStore from '@client/store/Lecture/LectureStore';
+import LectureRepository from '@client/repository/LectureRepository';
+
+Container.bindName(ENVKEY.CLIENT.STORE.CLIENT).to(
+    (() => {
+        const DOAMIN = Container.getValue(ENVKEY.SERVER.DOMAIN);
+        const PORT = Container.getValue(ENVKEY.SERVER.PORT);
+
+        return new ApolloClient({
+            uri: `${DOAMIN}:${PORT}/graphql`,
+            cache: new InMemoryCache(),
+        });
+    })()
+);
 
 Container.bindName(ENVKEY.CLIENT.STORE.ROOT).to(
     (() => {
@@ -19,7 +34,11 @@ Container.bindName(ENVKEY.CLIENT.STORE.ROOT).to(
             },
             user_store: {},
             assignment_store: {},
-            lecture_store: {},
+            lecture_store: new LectureStore(
+                new LectureRepository(
+                    Container.getValue(ENVKEY.CLIENT.STORE.CLIENT)
+                )
+            ),
         });
     })()
 );

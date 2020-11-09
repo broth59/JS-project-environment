@@ -1,7 +1,7 @@
 ///<reference types="ordinary-type-bundle" />
 import React from 'react';
 import { hot } from 'react-hot-loader/root'
-
+import { BrowserRouter } from 'react-router-dom'
 import '@client/bootstrap'
 import StoreProvider from '@client/context/StoreContext'
 import { UI } from '@hooks/UI'
@@ -17,11 +17,13 @@ const App: React.FC = () => {
 
 	return (
 		<StoreProvider>
-			<div className="App" css={app}>
-				<Header/>
-				<Sidebar/>
-				<Main/>
-			</div>
+			<BrowserRouter>
+				<div className="App" css={app}>
+					<Header/>
+					<Sidebar/>
+					<Main/>
+				</div>
+			</BrowserRouter>
 		</StoreProvider>
 	);
 }

@@ -9,7 +9,7 @@ import { Transaction, EntityManager, TransactionManager } from 'typeorm';
 @Resolver(() => LectureEntity)
 export class LectureResolver {
     @Query(() => LectureEntity, { nullable: true })
-    async lecuture(
+    async lecture(
         @Ctx() ctx: ResolverContext,
         @Arg('content_no', { nullable: false }) content_no: number
     ): Promise<LectureEntity | undefined> {
@@ -21,7 +21,26 @@ export class LectureResolver {
     }
 
     @Query(() => [LectureEntity], { nullable: 'items' })
-    async lecutures(
+    async lectures(
+        @Ctx() ctx: ResolverContext,
+        @Arg('skip', { nullable: true, defaultValue: 0 }) skip: number,
+        @Arg('take', { nullable: true, defaultValue: 50 }) take: number
+    ): Promise<LectureEntity[] | undefined> {
+        const repository = ctx.db.getRepository(LectureEntity);
+
+        const skipped = skip * take;
+
+        return repository
+            .createQueryBuilder('lecture')
+            .where('ROWNUM > :skip AND ROWNUM <= :take', {
+                skip: skipped,
+                take,
+            })
+            .getMany();
+    }
+
+    @Query(() => [LectureEntity], { nullable: 'items' })
+    async lecturesHierarky(
         @Ctx() ctx: ResolverContext,
         @Arg('skip', { nullable: true, defaultValue: 0 }) skip: number,
         @Arg('take', { nullable: true, defaultValue: 50 }) take: number
@@ -29,12 +48,12 @@ export class LectureResolver {
         const repository = ctx.db.getRepository(LectureEntity);
         return repository
             .createQueryBuilder('lecture')
-            .where('ROWNUM > :skip AND ROWNUM <= :take', { skip, take })
+            .where('lecture.upper_content_no IS NULL')
             .getMany();
     }
 
     @Query(() => LectureContentEntity, { nullable: true })
-    async lecutureContent(
+    async lectureContent(
         @Ctx() ctx: ResolverContext,
         @Arg('content_no', { nullable: false }) content_no: number
     ): Promise<LectureContentEntity | undefined> {
